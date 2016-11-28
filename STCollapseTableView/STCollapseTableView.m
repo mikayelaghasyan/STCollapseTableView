@@ -168,7 +168,14 @@
         {
             [self reloadData];
         }
-	}
+
+        if ([self.collapseDelegate respondsToSelector:@selector(collapseTableView:didCloseSection:)]) {
+            [(id<STCollapseTableViewDelegate>)self.collapseDelegate collapseTableView:self didCloseSection:openedSection];
+        }
+        if ([self.collapseDelegate respondsToSelector:@selector(collapseTableView:didOpenSection:)]) {
+            [(id<STCollapseTableViewDelegate>)self.collapseDelegate collapseTableView:self didOpenSection:sectionIndex];
+        }
+    }
     else
     {
 		[self setSectionAtIndex:sectionIndex open:YES];
@@ -182,7 +189,11 @@
         {
             [self reloadData];
         }
-	}
+
+        if ([self.collapseDelegate respondsToSelector:@selector(collapseTableView:didOpenSection:)]) {
+            [(id<STCollapseTableViewDelegate>)self.collapseDelegate collapseTableView:self didOpenSection:sectionIndex];
+        }
+    }
 }
 
 - (void)closeSection:(NSUInteger)sectionIndex animated:(BOOL)animated
@@ -197,6 +208,10 @@
     else
     {
         [self reloadData];
+    }
+
+    if ([self.collapseDelegate respondsToSelector:@selector(collapseTableView:didCloseSection:)]) {
+        [(id<STCollapseTableViewDelegate>)self.collapseDelegate collapseTableView:self didCloseSection:sectionIndex];
     }
 }
 
@@ -271,7 +286,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	int nbSection = [self.collapseDataSource numberOfSectionsInTableView:tableView];
+	NSInteger nbSection = [self.collapseDataSource numberOfSectionsInTableView:tableView];
     
 	while (nbSection < [self.sectionsStates count])
     {

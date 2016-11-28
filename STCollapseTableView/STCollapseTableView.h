@@ -87,3 +87,11 @@
 - (BOOL)isOpenSection:(NSUInteger)sectionIndex;
 
 @end
+
+@protocol STCollapseTableViewDelegate <UITableViewDelegate>
+
+@optional
+- (void)collapseTableView:(STCollapseTableView *)tableView didOpenSection:(NSInteger)section;
+- (void)collapseTableView:(STCollapseTableView *)tableView didCloseSection:(NSInteger)section;
+
+@end
